@@ -27,11 +27,7 @@ public class QuestRunner: IObtainObserver, IQuestRunner
 			return;
 		}
 
-		var rewards = quest.GetRewards();
-		foreach (var reward in rewards)
-		{
-			reward.GiveRewardToRunner(this);
-		}
+		quest.GetRewards(this);
 	}
 	void IQuestRunner.AddQuest(Quest quest)
 	{

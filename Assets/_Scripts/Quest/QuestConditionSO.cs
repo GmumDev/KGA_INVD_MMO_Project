@@ -4,5 +4,5 @@ public abstract class QuestConditionSO : ScriptableObject
 {
 	public string id;
     public QuestConditionType type;
-	public abstract QuestCondition GetCondition();
+	public abstract QuestCondition GetConditionInstance();
 }

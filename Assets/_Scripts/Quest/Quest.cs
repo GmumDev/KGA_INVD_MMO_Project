@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Quest
 {
+    QuestIds id;
     string title;
     string descript;
 	QuestCondition[] Conditions { get; }
@@ -20,7 +21,7 @@ public class Quest
         this.Conditions = new QuestCondition[_questSO.conditions.Length];
         for(int i = 0; i < _questSO.conditions.Length; i++)
         {
-			Conditions[i] = _questSO.conditions[i].GetCondition();
+			Conditions[i] = _questSO.conditions[i].GetConditionInstance();
         }
 
         this.Rewards = new QuestReward[_questSO.rewards.Length];
@@ -30,9 +31,13 @@ public class Quest
 		}
         this.title = _questSO.title;
         this.descript = _questSO.descript;
+        this.id = _questSO.id;
 	}
-    public QuestReward[] GetRewards()
+    public void GetRewards(IQuestRunner runner)
     {
-        return Rewards;
+        foreach(var reward in Rewards)
+        {
+            reward.GiveRewardToRunner(runner);
+        }
     }
 }

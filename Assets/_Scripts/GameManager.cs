@@ -30,15 +30,15 @@ public class GameManager: MonoBehaviour
 		}
 
 		_ = QuestDB.Instance;
-		_ = QuestInstantiater.Instance;
 
 	}
 	private async void Start()
 	{
 
-		string assetKey = AssetKeyDB.GetAssetKey(KeyType.Quest);
-		await QuestDB.Instance.LoadData(assetKey);
-		Quest q = QuestInstantiater.Instance.InstantiateQuestFromID(assetKey);
+		string assetKey = AssetKeyDB.GetAssetKey(QuestIds.FirstQuest);
+		await QuestDB.Instance.LoadData(assetKey); // Load하면 QuestDB.Instance 내에 SO 남아있음. 
+
+		Quest q = new Quest(QuestDB.Instance.GetSO(QuestIds.FirstQuest));
 
 		Debug.Log(q);
 	}

@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: e999f7048c2ce844ebea94d68e3f9679
   m_SerializeEntries:
   - m_GUID: 2d133bbd1671671448ecb6769d7100eb
-    m_Address: 4210001
+    m_Address: FirstQuest
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

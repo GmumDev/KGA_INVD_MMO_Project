@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class QuestSO: ScriptableObject
 {
-	public string id;
+	public QuestIds id;
 	public QuestConditionSO[] conditions;
 	public QuestRewardSO[] rewards;
 

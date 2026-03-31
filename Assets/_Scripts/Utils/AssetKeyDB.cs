@@ -1,25 +1,12 @@
+using System;
 using UnityEngine;
-
-public enum KeyType
-{
-    Quest,
-	QuestCondition,
-	QuestReward,
-}
 public static class AssetKeyDB
 {
-    public static string GetAssetKey(KeyType keytype)
+
+	// QuestID 뿐만아니라 여러가지 오버로딩해서 가져올 수 있도록 구현
+
+    public static string GetAssetKey(QuestIds id)
     {
-        switch(keytype)
-        {
-            case KeyType.Quest:
-                return "4210001";
-            case KeyType.QuestCondition:
-                return "4310001";
-			case KeyType.QuestReward:
-				return "4410001";
-            default:
-                return "";
-        }
-    }
+		return Enum.GetName(typeof(QuestIds), id);
+	}
 }

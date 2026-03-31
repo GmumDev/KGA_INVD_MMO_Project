@@ -8,7 +8,7 @@ public class QuestObtainConditionSO: QuestConditionSO
     public int itemCount;
     public bool removeItemsOnComplete;
 
-    public override QuestCondition GetCondition()
+    public override QuestCondition GetConditionInstance()
     {
 		return new QuestObtainCondition(this);
 	}

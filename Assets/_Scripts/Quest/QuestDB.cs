@@ -20,11 +20,11 @@ public class QuestDB
 			return instance;
 		}
 	}
-	private Dictionary<string, QuestSO> questSOs;
+	private Dictionary<QuestIds, QuestSO> questSOs;
 
 	private QuestDB()
 	{
-		questSOs = new Dictionary<string, QuestSO>();
+		questSOs = new Dictionary<QuestIds, QuestSO>();
 	}
 	public async Awaitable LoadData(string assetKey)
 	{
@@ -45,7 +45,7 @@ public class QuestDB
 		}
 	}
 
-	public QuestSO GetSO(string id)
+	public QuestSO GetSO(QuestIds id)
 	{
 		if (questSOs.ContainsKey(id)) return questSOs[id];
 		return null;
