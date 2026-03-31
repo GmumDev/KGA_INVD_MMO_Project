@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Inventory: IInventory
 {
-	Dictionary<string, InventoryCell> datas = new Dictionary<string, InventoryCell>();
+	Dictionary<ItemIds, InventoryCell> datas = new Dictionary<ItemIds, InventoryCell>();
 
-	void IInventory.AddItem(string id, ItemData item, int cnt)
+	void IInventory.AddItem(ItemIds id, ItemData item, int cnt)
 	{
 		if(datas.ContainsKey(id))
 		{
@@ -21,11 +21,11 @@ public class Inventory: IInventory
 			datas.Add(id, new InventoryCell(item, cnt));
 		}
 	}
-	bool IInventory.HasItem(string id)
+	bool IInventory.HasItem(ItemIds id)
 	{
 		return datas.ContainsKey(id);
 	}
-	int IInventory.GetItemCount(string id)
+	int IInventory.GetItemCount(ItemIds id)
 	{
 		if(datas.ContainsKey(id))
 		{

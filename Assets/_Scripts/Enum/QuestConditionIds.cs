@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class QuestConditionIds
+public enum QuestConditionIds
 {
-    
+    Obtain_3_CobbleStone,
+
 }

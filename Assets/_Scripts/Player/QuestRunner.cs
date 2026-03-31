@@ -16,9 +16,9 @@ public class QuestRunner: IObtainObserver, IQuestRunner
 		obtainer?.Subscribe(this);
 	}
 	void IObtainObserver.Update(ItemData item, int cnt) => UpdateWhetherQuestComplete();
-	bool IQuestRunner.HasItem(string id) => inventory.HasItem(id);
-	int IQuestRunner.GetItemCount(string id) => inventory.GetItemCount(id);
-	void IQuestRunner.AddItem(string id, ItemData item, int cnt) => inventory.AddItem(id, item, cnt);
+	bool IQuestRunner.HasItem(ItemIds id) => inventory.HasItem(id);
+	int IQuestRunner.GetItemCount(ItemIds id) => inventory.GetItemCount(id);
+	void IQuestRunner.AddItem(ItemIds id, ItemData item, int cnt) => inventory.AddItem(id, item, cnt);
 	void IQuestRunner.CompleteQuest(Quest quest)
 	{
 		var complete = questCompleted.Remove(quest);

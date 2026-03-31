@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1d4e61ba5ff5d40b4aed963c2e9adb, type: 3}
   m_Name: FirstQuestCondition
   m_EditorClassIdentifier: Assembly-CSharp::QuestObtainConditionSO
-  id: 50001
+  id: 0
   type: 0
-  itemID: 1
+  itemID: 0
   itemCount: 3
   removeItemsOnComplete: 0

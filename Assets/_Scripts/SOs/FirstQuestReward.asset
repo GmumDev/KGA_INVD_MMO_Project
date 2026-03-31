@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: FirstQuestReward
   m_EditorClassIdentifier: Assembly-CSharp::QuestItemRewardSO
   type: 2
-  id: 1
-  ItemID: 2
-  numberOfItems: 3
+  itemId: 1
+  itemCount: 1

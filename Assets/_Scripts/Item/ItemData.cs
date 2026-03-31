@@ -2,6 +2,6 @@ using UnityEngine;
 
 public struct ItemData
 {
-    public string id;
+    public ItemIds id;
     public string name;
 }

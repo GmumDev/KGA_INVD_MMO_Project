@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuestItemRewardSO: QuestRewardSO
 {
-	public string id;
+	public ItemIds itemId;
 	public ItemData itemData;
 	public int itemCount;
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd2a7060a3d57d478598ed21b9344be, type: 3}
   m_Name: FirstQuest
   m_EditorClassIdentifier: Assembly-CSharp::QuestSO
-  id: 4210001
+  id: 0
   conditions:
   - {fileID: 11400000, guid: b4475be87328f114d84f266aa3bce56c, type: 2}
   rewards:

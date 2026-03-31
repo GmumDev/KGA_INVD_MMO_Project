@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/QuestObtainConditionSO")]
 public class QuestObtainConditionSO: QuestConditionSO
 {
-    public string itemID;
+    public ItemIds itemID;
     public int itemCount;
     public bool removeItemsOnComplete;
 

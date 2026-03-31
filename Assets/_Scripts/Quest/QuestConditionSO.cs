@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class QuestConditionSO : ScriptableObject
 {
-	public string id;
+	public QuestConditionIds id;
     public QuestConditionType type;
 	public abstract QuestCondition GetConditionInstance();
 }
