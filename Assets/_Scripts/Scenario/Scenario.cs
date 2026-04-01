@@ -19,8 +19,10 @@ public class Scenario
 		return true;
 	}
     public bool PlayNextNode(IScenarioPlayer scenarioPlayer)
-    {
-        curNode.OnFinished(scenarioPlayer);
+	{
+		if (curNode == null)
+			return false;
+		curNode.OnFinished(scenarioPlayer);
         curNode = curNode.GetNextNode();
 
         return PlayCurrentNode(scenarioPlayer);

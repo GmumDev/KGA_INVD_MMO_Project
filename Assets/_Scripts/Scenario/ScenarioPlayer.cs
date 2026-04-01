@@ -1,21 +1,43 @@
+using System;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ScenarioPlayer : IScenarioPlayer
+public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer
 {
-	static ScenarioPlayer instance;
-	public static ScenarioPlayer Instance
-	{
-		get
-		{
-			if (instance == null)
-				instance = new ScenarioPlayer();
-			return instance;
-		}
-	}
-	private ScenarioPlayer() { }
+
 
 	Scenario currentScenario;
+
+	[SerializeField]
+	GameObject ScenarioPanel;
+
+	[SerializeField]
+	TextMeshProUGUI dialogueUGUI;
+
+	Scenario scenario;
+
+	private async void Start()
+	{
+
+		SOLoader<ScenarioIds, ScenarioSO> ScenarioLoader = SOLoader<ScenarioIds, ScenarioSO>.Instance;
+
+		await ScenarioLoader.LoadData(ScenarioIds.FirstTutorial);
+
+		scenario = new Scenario(ScenarioLoader.GetSO(ScenarioIds.FirstTutorial));
+
+	}
+
+	public void Play()
+	{
+		(this as IScenarioPlayer).PlayScenario(scenario);
+	}
+
+	public void NextScenarioNode()
+	{
+		(this as IScenarioPlayer).NextNode();
+	}
+
 
 	bool isPlaying;
 	bool IScenarioPlayer.IsPlaying => isPlaying;
@@ -38,14 +60,15 @@ public class ScenarioPlayer : IScenarioPlayer
 			OnScenarioFinished();
 		}
 	}
-	void IScenarioPlayer.DoDialogue(ScenarioDialogueNode so)
+	void IScenarioPlayer.DoDialogue(ScenarioDialogueNodeSO so)
 	{
-		throw new System.NotImplementedException();
+		dialogueUGUI.text = so.dialogueStr;
+		ScenarioPanel.SetActive(true);
 	}
-
 	void IScenarioPlayer.ClearDialogue()
 	{
-		throw new System.NotImplementedException();
+		dialogueUGUI.text = "";
+		ScenarioPanel.SetActive(false);
 	}
 	void OnScenarioFinished()
 	{

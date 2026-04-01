@@ -7,7 +7,6 @@ public class Obtainer: IObtainer
 {
     List<IObtainObserver> observers = new List<IObtainObserver>();
 
-    [SerializeField]
     private IInventory inventory;
 
     public Obtainer(IInventory inventory)

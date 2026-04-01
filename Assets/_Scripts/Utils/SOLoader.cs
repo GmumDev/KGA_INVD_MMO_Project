@@ -18,7 +18,7 @@ public class SOLoader<TID, TSO> where TSO : SORuntimeLoadable<TID>
 			return instance;
 		}
 	}
-	private Dictionary<TID, TSO> datas;
+	private Dictionary<TID, TSO> datas = new Dictionary<TID, TSO>();
 	
 	public async Awaitable LoadData(TID questId)
 	{

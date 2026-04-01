@@ -38,13 +38,6 @@ public class GameManager: MonoBehaviour
 		
 		Quest q = new Quest(QuestLoader.GetSO(QuestIds.FirstQuest));
 
-
-		SOLoader<ScenarioIds, ScenarioSO> ScenarioLoader = SOLoader<ScenarioIds, ScenarioSO>.Instance;
-
-		await ScenarioLoader.LoadData(ScenarioIds.FirstTutorial);
-
-		Scenario scenario = new Scenario(ScenarioLoader.GetSO(ScenarioIds.FirstTutorial));
-
 		Debug.Log(q);
 	}
 }

@@ -10,7 +10,7 @@ public class ScenarioDialogueNode : ScenarioNode
 	}
 	public override ScenarioNode GetNextNode()
 	{
-		return nodeSO.nextNode.GetNodeInstance();
+		return nodeSO.nextNode?.GetNodeInstance();
 	}
 	public override void OnFinished(IScenarioPlayer scenarioPlayer)
 	{
@@ -19,6 +19,6 @@ public class ScenarioDialogueNode : ScenarioNode
 
 	public override void OnPlayed(IScenarioPlayer scenarioPlayer)
 	{
-		scenarioPlayer.DoDialogue(this);
+		scenarioPlayer.DoDialogue(nodeSO);
 	}
 }

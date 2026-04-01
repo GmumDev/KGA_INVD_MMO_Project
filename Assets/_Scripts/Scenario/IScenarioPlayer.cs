@@ -8,6 +8,6 @@ public interface IScenarioPlayer
 
     //
 
-	void DoDialogue(ScenarioDialogueNode so);
+	void DoDialogue(ScenarioDialogueNodeSO so);
     void ClearDialogue();
 }
