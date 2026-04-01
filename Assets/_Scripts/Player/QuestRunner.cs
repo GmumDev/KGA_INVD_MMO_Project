@@ -48,7 +48,7 @@ public class QuestRunner: IObtainObserver, IQuestRunner
 	}
 	~QuestRunner()
 	{
-		obtainer?.Describe();
+		obtainer?.Unsubscribe(this);
 	}
 
 }

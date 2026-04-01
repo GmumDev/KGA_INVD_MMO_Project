@@ -2,6 +2,12 @@ using UnityEngine;
 
 public interface IScenarioPlayer
 {
-    void Play(ScenarioNodeIds id);
-    void Next();
+    bool IsPlaying { get; }
+    void PlayScenario(Scenario scenario);
+    void NextNode();
+
+    //
+
+	void DoDialogue(ScenarioDialogueNode so);
+    void ClearDialogue();
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScenarioPlayer : IScenarioPlayer
@@ -14,15 +15,40 @@ public class ScenarioPlayer : IScenarioPlayer
 	}
 	private ScenarioPlayer() { }
 
+	Scenario currentScenario;
 
+	bool isPlaying;
+	bool IScenarioPlayer.IsPlaying => isPlaying;
 
-	void IScenarioPlayer.Next()
+	void IScenarioPlayer.PlayScenario(Scenario scenario)
+	{
+		if (isPlaying) return;
+
+		isPlaying = true;
+		this.currentScenario = scenario;
+		currentScenario.PlayCurrentNode(this as IScenarioPlayer);
+	}
+	void IScenarioPlayer.NextNode()
+	{
+		if (currentScenario == null) return;
+
+		isPlaying = currentScenario.PlayNextNode(this);
+		if(isPlaying == false)
+		{
+			OnScenarioFinished();
+		}
+	}
+	void IScenarioPlayer.DoDialogue(ScenarioDialogueNode so)
 	{
 		throw new System.NotImplementedException();
 	}
 
-	void IScenarioPlayer.Play(ScenarioNodeIds id)
+	void IScenarioPlayer.ClearDialogue()
 	{
 		throw new System.NotImplementedException();
+	}
+	void OnScenarioFinished()
+	{
+
 	}
 }

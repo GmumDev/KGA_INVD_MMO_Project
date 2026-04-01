@@ -2,12 +2,13 @@ using UnityEngine;
 
 public abstract class ScenarioNode
 {
-    ScenarioNodeIds id;
-    ScenarioNodeType type;
 
-    public ScenarioNode(ScenarioNodeIds id, ScenarioNodeType type)
+    protected ScenarioNodeType type { get; }
+    public ScenarioNode(ScenarioNodeType type)
     {
-        this.id = id;
         this.type = type;
     }
+	public abstract void OnPlayed(IScenarioPlayer scenarioPlayer);
+	public abstract void OnFinished(IScenarioPlayer scenarioPlayer);
+    public abstract ScenarioNode GetNextNode();
 }

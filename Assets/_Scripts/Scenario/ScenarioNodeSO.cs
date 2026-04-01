@@ -1,10 +1,10 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ScenarioNodeSO")]
-
-public class ScenarioNodeSO: SORuntimeLoadable<ScenarioNodeIds>
+public abstract class ScenarioNodeSO: ScriptableObject
 {
-
+	public ScenarioNodeIds id;
+	public ScenarioNodeType type;
+	public abstract ScenarioNode GetNodeInstance();
 
 }

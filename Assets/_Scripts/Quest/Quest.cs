@@ -16,22 +16,22 @@ public class Quest
         }
         return true;
     }
-    public Quest(QuestSO _questSO)
+    public Quest(QuestSO questSO)
     {
-        this.Conditions = new QuestCondition[_questSO.conditions.Length];
-        for(int i = 0; i < _questSO.conditions.Length; i++)
+        this.Conditions = new QuestCondition[questSO.conditions.Length];
+        for(int i = 0; i < questSO.conditions.Length; i++)
         {
-			Conditions[i] = _questSO.conditions[i].GetConditionInstance();
+			Conditions[i] = questSO.conditions[i].GetConditionInstance();
         }
 
-        this.Rewards = new QuestReward[_questSO.rewards.Length];
-		for (int i = 0; i < _questSO.rewards.Length; i++)
+        this.Rewards = new QuestReward[questSO.rewards.Length];
+		for (int i = 0; i < questSO.rewards.Length; i++)
 		{
-			Rewards[i] = _questSO.rewards[i].GetRewardInstance();
+			Rewards[i] = questSO.rewards[i].GetRewardInstance();
 		}
-        this.title = _questSO.title;
-        this.descript = _questSO.descript;
-        this.id = _questSO.id;
+        this.title = questSO.title;
+        this.descript = questSO.descript;
+        this.id = questSO.id;
 	}
     public void GetRewards(IQuestRunner runner)
     {
