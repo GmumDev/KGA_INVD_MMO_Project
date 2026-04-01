@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 538708d232e62304bbfcee7f5016b9ff, type: 3}
   m_Name: FT_ 4
   m_EditorClassIdentifier: Assembly-CSharp::ScenarioDialogueNodeSO
-  index: 3
   type: 0
   nextNode: {fileID: 0}
   dialogueStr: "\uADF8\uC8E0"

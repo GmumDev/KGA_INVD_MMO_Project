@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class Inventory: MonoBehaviour, IInventory
 {
-	Dictionary<ItemIds, InventoryCell> datas = new Dictionary<ItemIds, InventoryCell>();
+	Dictionary<ItemIds, int> datas = new Dictionary<ItemIds, int>();
 
-	void IInventory.AddItem(ItemIds id, ItemData item, int cnt)
+	void IInventory.AddItem(ItemIds id, int cnt)
 	{
 		if(datas.ContainsKey(id))
 		{
-			InventoryCell cell = datas[id];
 
-			cell.Count += cnt;
-			
-			datas[id] = cell;
+            datas[id] += cnt;
 		}
 		else
 		{
-			datas.Add(id, new InventoryCell(item, cnt));
+			datas.Add(id, cnt);
 		}
 	}
 	bool IInventory.HasItem(ItemIds id)
@@ -29,7 +26,7 @@ public class Inventory: MonoBehaviour, IInventory
 	{
 		if(datas.ContainsKey(id))
 		{
-			return datas[id].Count;
+			return datas[id];
 		}
 		return 0;
 	}

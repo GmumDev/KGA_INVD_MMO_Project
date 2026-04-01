@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScenarioSO
   id: 0
   startNode: {fileID: 11400000, guid: db6502dd2dedc6b4ab89a3ddf7efed47, type: 2}
+  title: FirstTutorial

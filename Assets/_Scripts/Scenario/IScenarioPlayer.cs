@@ -3,11 +3,6 @@ using UnityEngine;
 public interface IScenarioPlayer
 {
     bool IsPlaying { get; }
-    void PlayScenario(Scenario scenario);
+    void PlayScenario(ScenarioIds scenarioId);
     void NextNode();
-
-    //
-
-	void DoDialogue(ScenarioDialogueNodeSO so);
-    void ClearDialogue();
 }
