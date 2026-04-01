@@ -15,7 +15,7 @@ public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer
 	[SerializeField]
 	TextMeshProUGUI dialogueUGUI;
 
-	Scenario scenario;
+	Scenario scenarioForTest;
 
 	private async void Start()
 	{
@@ -24,17 +24,19 @@ public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer
 
 		await ScenarioLoader.LoadData(ScenarioIds.FirstTutorial);
 
-		scenario = new Scenario(ScenarioLoader.GetSO(ScenarioIds.FirstTutorial));
+		scenarioForTest = new Scenario(ScenarioLoader.GetSO(ScenarioIds.FirstTutorial));
 
 	}
 
 	public void Play()
 	{
-		(this as IScenarioPlayer).PlayScenario(scenario);
+		(this as IScenarioPlayer).PlayScenario(scenarioForTest);
 	}
 
 	public void NextScenarioNode()
 	{
+		if (isPlaying == false) return;
+
 		(this as IScenarioPlayer).NextNode();
 	}
 
@@ -72,6 +74,7 @@ public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer
 	}
 	void OnScenarioFinished()
 	{
-
+		isPlaying = false;
+		currentScenario.ResetScenario();
 	}
 }

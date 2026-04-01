@@ -485,6 +485,9 @@ GameObject:
   - component: {fileID: 288922655}
   - component: {fileID: 288922656}
   - component: {fileID: 288922657}
+  - component: {fileID: 288922660}
+  - component: {fileID: 288922659}
+  - component: {fileID: 288922658}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -520,6 +523,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8247eeb55e706f84e8f6225b09257e26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  inventory:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &288922656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,6 +557,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraSwitcher
   freeCam: {fileID: 0}
   tpsCam: {fileID: 0}
+--- !u!114 &288922658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288922653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cdfc6dc260f86a48a2d3cb6b3793e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestRunner
+  obtainer:
+    rid: -2
+  inventory:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+--- !u!114 &288922659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288922653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 103cb1c0547a8fb44b7798379aa6cfb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Obtainer
+  inventory:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+--- !u!114 &288922660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288922653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d3a6681ed832b4a9fe645a8782709f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

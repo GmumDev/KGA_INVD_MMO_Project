@@ -3,12 +3,14 @@ using UnityEngine;
 public class Scenario
 {
     ScenarioIds id;
-    ScenarioNode curNode;
+	ScenarioNode startNode;
+	ScenarioNode curNode;
     public Scenario(ScenarioSO so)
     {
         this.id = so.id;
 
-        this.curNode = so.startNode.GetNodeInstance();
+		this.startNode = so.startNode.GetNodeInstance();
+        this.curNode = startNode;
         
     }
     public bool PlayCurrentNode(IScenarioPlayer scenarioPlayer)
@@ -26,5 +28,9 @@ public class Scenario
         curNode = curNode.GetNextNode();
 
         return PlayCurrentNode(scenarioPlayer);
+    }
+    public void ResetScenario()
+    {
+        this.curNode = startNode;
     }
 }

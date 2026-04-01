@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Obtainer: IObtainer
+[RequireComponent(typeof(Inventory))]
+public class Obtainer: MonoBehaviour, IObtainer
 {
-    List<IObtainObserver> observers = new List<IObtainObserver>();
+    List<IObtainObserver> observers = new List<IObtainObserver>();	// Finish before Awake call
 
     private IInventory inventory;
-
-    public Obtainer(IInventory inventory)
-    {
-        this.inventory = inventory;
-    }
-    void IObtainer.Subscribe(IObtainObserver observer)
+	private void Start()
+	{
+		inventory = GetComponent<Inventory>();
+	}
+	void IObtainer.Subscribe(IObtainObserver observer)
     {
         observers.Add(observer);
     }

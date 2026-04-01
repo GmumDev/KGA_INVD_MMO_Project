@@ -1,17 +1,13 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(QuestRunner))]
 public class Player : MonoBehaviour
 {
-
-    IObtainer obtainer;
-    IQuestRunner questRunner;
+    IInventory inventory;
 
     void Start()
     {
-        var inventory = new Inventory();
-		obtainer = new Obtainer(inventory as IInventory);
-        questRunner = new QuestRunner(obtainer as IObtainer, inventory as IInventory);
-
+        inventory = GetComponent<Inventory>();
     }
 }

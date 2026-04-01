@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class QuestRunner: IObtainObserver, IQuestRunner
+[RequireComponent(typeof(Obtainer))]
+public class QuestRunner: MonoBehaviour, IObtainObserver, IQuestRunner
 {
     List<Quest> questCompleted = new List<Quest>();
 	List<Quest> questNotCompleted = new List<Quest>();
 
     IObtainer obtainer;
+
 	IInventory inventory;
 
-	public QuestRunner(IObtainer obtainer, IInventory inventory)
+	void Start()
 	{
+		obtainer = GetComponent<Obtainer>();
+		inventory = GetComponent<Inventory>();
+
 		obtainer?.Subscribe(this);
 	}
 	void IObtainObserver.Update(ItemData item, int cnt) => UpdateWhetherQuestComplete();

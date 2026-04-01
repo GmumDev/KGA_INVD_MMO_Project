@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Inventory: IInventory
+public class Inventory: MonoBehaviour, IInventory
 {
 	Dictionary<ItemIds, InventoryCell> datas = new Dictionary<ItemIds, InventoryCell>();
 
