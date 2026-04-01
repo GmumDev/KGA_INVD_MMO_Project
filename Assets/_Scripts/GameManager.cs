@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class GameManager: MonoBehaviour
@@ -34,7 +35,6 @@ public class GameManager: MonoBehaviour
 	}
 	private async void Start()
 	{
-
 		string assetKey = AssetKeyDB.GetAssetKey(QuestIds.FirstQuest);
 		await QuestDB.Instance.LoadData(assetKey); // Load하면 QuestDB.Instance 내에 SO 남아있음. 
 

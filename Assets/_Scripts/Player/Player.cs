@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
     IObtainer obtainer;
     IQuestRunner questRunner;
     void Start()
@@ -10,5 +11,7 @@ public class Player : MonoBehaviour
 		obtainer = new Obtainer(inventory as IInventory);
         questRunner = new QuestRunner(obtainer as IObtainer, inventory as IInventory);
     }
+
+
 
 }
