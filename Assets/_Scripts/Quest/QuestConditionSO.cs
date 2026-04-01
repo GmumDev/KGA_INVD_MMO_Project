@@ -3,6 +3,6 @@ using UnityEngine;
 public abstract class QuestConditionSO : ScriptableObject
 {
 	public QuestConditionIds id;
-    public QuestConditionType type;
+	public QuestConditionType type;
 	public abstract QuestCondition GetConditionInstance();
 }

@@ -3,9 +3,8 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/QuestSO")]
 
-public class QuestSO: ScriptableObject
+public class QuestSO: SORuntimeLoadable<QuestIds>
 {
-	public QuestIds id;
 	public QuestConditionSO[] conditions;
 	public QuestRewardSO[] rewards;
 
