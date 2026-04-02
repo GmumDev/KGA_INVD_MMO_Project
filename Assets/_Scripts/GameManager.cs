@@ -32,6 +32,9 @@ public class GameManager: MonoBehaviour
 	}
 	private async void Start()
 	{
+		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
+
 		SOLoader<QuestIds, QuestSO> QuestLoader = SOLoader<QuestIds, QuestSO>.Instance;
 
 		await QuestLoader.LoadData(QuestIds.FirstQuest);
