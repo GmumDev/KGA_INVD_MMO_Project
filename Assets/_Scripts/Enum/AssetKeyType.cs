@@ -1,8 +1,5 @@
 using UnityEngine;
 
-
-
-
 public enum AssetKeyType
 {
 	Quest,

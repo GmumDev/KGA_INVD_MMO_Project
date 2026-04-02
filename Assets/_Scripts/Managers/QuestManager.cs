@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using Unity.Android.Gradle.Manifest;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
@@ -29,6 +30,12 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 
 	QuestRewardService rewardService = new QuestRewardService();
 
+    #region Scenario Test On UI Button
+    public void Test_AcceptQuest()
+    {
+        (this as IQuestManager).AcceptQuest(QuestIds.FirstQuest);
+    }
+    #endregion 
     void Start()
 	{
         inventory = GetComponent<InventorySystem>();

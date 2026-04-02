@@ -3,7 +3,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(QuestManager))]
 public class Player : MonoBehaviour
 {
     IInventory inventory;

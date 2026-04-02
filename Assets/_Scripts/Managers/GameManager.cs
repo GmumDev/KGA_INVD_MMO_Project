@@ -32,15 +32,18 @@ public class GameManager: MonoBehaviour
 	}
 	private async void Start()
 	{
-		Cursor.visible = false;
-		Cursor.lockState = CursorLockMode.Locked;
 
-		SOLoader<QuestIds, QuestSO> QuestLoader = SOLoader<QuestIds, QuestSO>.Instance;
+
+        SOLoader<ScenarioIds, ScenarioSO> ScenarioLoader = SOLoader<ScenarioIds, ScenarioSO>.Instance;
+
+        await ScenarioLoader.LoadData(ScenarioIds.FirstTutorial);
+
+        SOLoader<QuestIds, QuestSO> QuestLoader = SOLoader<QuestIds, QuestSO>.Instance;
 
 		await QuestLoader.LoadData(QuestIds.FirstQuest);
 
-		//IQuestRunner q;
-		//q.AddQuest(QuestIds.FirstQuest);
+		//IQuestManager q;
+		//q.AcceptQuest(QuestIds.FirstQuest);
 
 	}
 }

@@ -17,28 +17,22 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
     ScenarioNodeContext curNodeContext;
 
 
-    private async void Start()
-	{
-		SOLoader<ScenarioIds, ScenarioSO> ScenarioLoader = SOLoader<ScenarioIds, ScenarioSO>.Instance;
-
-		await ScenarioLoader.LoadData(ScenarioIds.FirstTutorial);
-	}
 
     bool isPlaying;
     bool IScenarioManager.IsPlaying => isPlaying;
 
-	public void Play()
+    #region Scenario Test On UI Button
+    public void Test_Play()
 	{
 		PlayScenario(ScenarioIds.FirstTutorial);
-	}
-	public void NextScenarioNode()
-	{
-		if (isPlaying == false) return;
+    }
+    public void Test_NextNode()
+    {
+        NextNode();
+    }
+    #endregion 
 
-		NextNode();
-	}
-
-	public void PlayScenario(ScenarioIds scenarioId)
+    public void PlayScenario(ScenarioIds scenarioId)
     {
         if (isPlaying) return;
 
@@ -70,7 +64,6 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
 
         curNodeContext = curNodeSO.ToContext();
         ScenarioService.PlayAsNextNode(this, curNodeContext);
-
     }
 
 
