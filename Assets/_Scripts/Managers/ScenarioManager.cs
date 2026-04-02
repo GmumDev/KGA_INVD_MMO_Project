@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer, IScenarioContextRunner
+public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContextRunner
 {
 	[SerializeField]
 	GameObject ScenarioPanel;
@@ -19,29 +19,26 @@ public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer, IScenarioContextRu
 
     private async void Start()
 	{
-
 		SOLoader<ScenarioIds, ScenarioSO> ScenarioLoader = SOLoader<ScenarioIds, ScenarioSO>.Instance;
 
 		await ScenarioLoader.LoadData(ScenarioIds.FirstTutorial);
-
-
 	}
 
     bool isPlaying;
-    bool IScenarioPlayer.IsPlaying => isPlaying;
+    bool IScenarioManager.IsPlaying => isPlaying;
 
 	public void Play()
 	{
-		(this as IScenarioPlayer).PlayScenario(ScenarioIds.FirstTutorial);
+		PlayScenario(ScenarioIds.FirstTutorial);
 	}
 	public void NextScenarioNode()
 	{
 		if (isPlaying == false) return;
 
-		(this as IScenarioPlayer).NextNode();
+		NextNode();
 	}
 
-	void IScenarioPlayer.PlayScenario(ScenarioIds scenarioId)
+	public void PlayScenario(ScenarioIds scenarioId)
     {
         if (isPlaying) return;
 
@@ -54,7 +51,7 @@ public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer, IScenarioContextRu
 
         ScenarioService.PlayAsFirstNode(this, curNodeContext);
     }
-    void IScenarioPlayer.NextNode()
+    public void NextNode()
     {
         if (isPlaying == false)     // fool proof
         {

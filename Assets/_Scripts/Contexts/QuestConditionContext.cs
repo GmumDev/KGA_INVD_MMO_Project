@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public struct QuestConditionContext
+public class QuestConditionContext
 {
     public QuestConditionIds id;
     public QuestConditionType type;

@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(QuestRunner))]
+[RequireComponent(typeof(QuestManager))]
 public class Player : MonoBehaviour
 {
     IInventory inventory;
@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
 	void Start()
     {
-        inventory = GetComponent<Inventory>();
+        inventory = GetComponent<InventorySystem>();
 		shooter = GetComponentInChildren<ProjectileShooter>();
 
 		fireAction = InputSystem.actions.FindAction("Fire");

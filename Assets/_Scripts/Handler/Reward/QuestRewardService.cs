@@ -1,14 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public static class QuestRewardService
+public class QuestRewardService
 {
-    private static readonly Dictionary<QuestRewardType, IRewardHandler> handlers
+    private readonly Dictionary<QuestRewardType, IRewardHandler> handlers
         = new Dictionary<QuestRewardType, IRewardHandler>()
         {
             { QuestRewardType.Item, new ItemRewardHandler() }
         };
-    public static void Give(IQuestRewardEarner earner, QuestRewardContext context)
+
+    public void Give(IQuestRewardEarner earner, QuestRewardContext context)
     {
         handlers[context.type].Handle(earner, context);
     }

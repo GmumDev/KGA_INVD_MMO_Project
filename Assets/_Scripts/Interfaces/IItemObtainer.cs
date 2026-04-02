@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IObtainer
+public interface IItemObtainer
 {
 	public void Obtain(ItemIds id, int cnt);
 }

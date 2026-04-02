@@ -9,9 +9,9 @@ public static class QuestConditionService
             { QuestConditionType.Obtain, new ObtainConditionChecker() },
 			{ QuestConditionType.Kill, new KillConditionChecker() }
 		};
-    public static bool IsMet(IQuestRunner runner, QuestConditionContext conditionCtx, QuestConditionProgress progressCtx)
+    public static bool IsMet(IQuestManager manager, QuestConditionContext conditionCtx, QuestConditionProgress progressCtx)
     {
-        return handlers[conditionCtx.type].Check(runner, conditionCtx, progressCtx);
+        return handlers[conditionCtx.type].Check(manager, conditionCtx, progressCtx);
 
     }
 }

@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public struct InventoryChangeEvent
+public struct InventoryChangedEvent
 {
     public ItemIds itemId;
 	public InventoryChangeReason reason;
 	public int deltaCnt;
 
-	public InventoryChangeEvent(
+	public InventoryChangedEvent(
 		ItemIds itemId,
 		InventoryChangeReason reason, 
 		int deltaCnt)

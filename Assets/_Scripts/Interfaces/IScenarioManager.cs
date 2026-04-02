@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IScenarioPlayer
+public interface IScenarioManager
 {
     bool IsPlaying { get; }
     void PlayScenario(ScenarioIds scenarioId);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IQuestRunner
+public interface IQuestManager
 {
 	void CompleteQuest(QuestIds questID);
 	void AbandonQuest(QuestIds questID);

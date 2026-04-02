@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public struct QuestContext
+public class QuestContext
 {
     public QuestIds id;
     public string title;
