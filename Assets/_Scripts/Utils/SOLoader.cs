@@ -20,9 +20,9 @@ public class SOLoader<TID, TSO> where TSO : SORuntimeLoadable<TID>
 	}
 	private Dictionary<TID, TSO> datas = new Dictionary<TID, TSO>();
 	
-	public async Awaitable LoadData(TID questId)
+	public async Awaitable LoadData(TID id)
 	{
-		string assetKey = AssetKeyDB.GetAssetKey(questId);
+		string assetKey = Enum.GetName(typeof(TID), id);
 		AsyncOperationHandle handle = Addressables.LoadAssetAsync<TSO>(assetKey);
 		handle.Completed += Handle_Completed;
 
