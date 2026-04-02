@@ -30,9 +30,18 @@ public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer, IScenarioContextRu
     bool isPlaying;
     bool IScenarioPlayer.IsPlaying => isPlaying;
 
+	public void Play()
+	{
+		(this as IScenarioPlayer).PlayScenario(ScenarioIds.FirstTutorial);
+	}
+	public void NextScenarioNode()
+	{
+		if (isPlaying == false) return;
 
+		(this as IScenarioPlayer).NextNode();
+	}
 
-    void IScenarioPlayer.PlayScenario(ScenarioIds scenarioId)
+	void IScenarioPlayer.PlayScenario(ScenarioIds scenarioId)
     {
         if (isPlaying) return;
 
@@ -67,17 +76,6 @@ public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer, IScenarioContextRu
 
     }
 
-    public void Play()
-	{
-		(this as IScenarioPlayer).PlayScenario(ScenarioIds.FirstTutorial);
-	}
-
-	public void NextScenarioNode()
-	{
-		if (isPlaying == false) return;
-
-		(this as IScenarioPlayer).NextNode();
-	}
 
     void IScenarioContextRunner.DoDialogue(ScenarioNodeContext ctx)
     {

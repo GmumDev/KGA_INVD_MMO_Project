@@ -13,27 +13,9 @@ public class Obtainer: MonoBehaviour, IObtainer
 	{
 		inventory = GetComponent<Inventory>();
 	}
-	void IObtainer.Subscribe(IObtainObserver observer)
-    {
-        observers.Add(observer);
-    }
-
-    void IObtainer.Unsubscribe(IObtainObserver observer)
-    {
-        observers.Remove(observer);
-    }
     void IObtainer.Obtain(ItemIds id, int cnt)
 	{
         if (inventory == null) return;
-        inventory.AddItem(id, cnt);
-
-		NotifyObservers(id, cnt);
-	}
-	private void NotifyObservers(ItemIds id, int cnt = 1)
-	{
-		for (int i = 0; i < observers.Count; i++)
-		{
-			observers[i].Update(id, cnt);
-		}
+        inventory.ObtainItem(id, cnt);
 	}
 }

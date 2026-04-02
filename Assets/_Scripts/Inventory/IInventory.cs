@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IInventory
 {
-    public bool HasItem(ItemIds id);
+    public bool CheckHasItem(ItemIds id);
     public int GetItemCount(ItemIds id);
-    public void AddItem(ItemIds id, int cnt);
+    public void ObtainItem(ItemIds id, int cnt);
 }

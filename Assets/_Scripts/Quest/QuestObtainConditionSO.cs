@@ -13,6 +13,7 @@ public class QuestObtainConditionSO: QuestConditionSO
         var context = new QuestConditionContext();
         context.id = id;
         context.type = type;
+
         context.itemID = itemID;
         context.itemCount = itemCount;
         context.removeItemsOnComplete = removeItemsOnComplete;

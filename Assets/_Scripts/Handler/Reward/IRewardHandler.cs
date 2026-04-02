@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IRewardHandler
 {
-    void Handle(IQuestRunner runner, QuestRewardContext context);
+    void Handle(IQuestRewardEarner earner, QuestRewardContext context);
 
 }

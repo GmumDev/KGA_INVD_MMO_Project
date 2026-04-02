@@ -8,9 +8,9 @@ public static class QuestRewardService
         {
             { QuestRewardType.Item, new ItemRewardHandler() }
         };
-    public static void Give(IQuestRunner runner, QuestRewardContext context)
+    public static void Give(IQuestRewardEarner earner, QuestRewardContext context)
     {
-        handlers[context.type].Handle(runner, context);
+        handlers[context.type].Handle(earner, context);
     }
 
 }
