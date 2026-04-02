@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public struct QuestRewardContext
+public class QuestRewardContext
 {
-    public QuestRewardIds id;
     public QuestRewardType type;
 
     // item reward

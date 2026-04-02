@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ItemRewardHandler : IRewardHandler
 {
-    void IRewardHandler.Handle(IQuestRunner runner, QuestRewardContext context)
+    void IRewardHandler.Handle(IQuestRewardEarner earner, QuestRewardContext context)
     {
-        runner.AddItem(context.itemId, context.itemCount);
+		earner.EarnItemReward(context.itemId, context.itemCount);
     }
 }
