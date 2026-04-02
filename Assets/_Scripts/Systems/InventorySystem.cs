@@ -19,7 +19,6 @@ public class InventorySystem: MonoBehaviour, IInventory
 
 		var ev = new InventoryChangedEvent(
 			itemId: id,
-			reason: InventoryChangeReason.Added,
 			deltaCnt: cnt
 			);
 
