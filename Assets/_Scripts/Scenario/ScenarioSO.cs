@@ -7,4 +7,14 @@ using UnityEngine;
 public class ScenarioSO: SORuntimeLoadable<ScenarioIds>
 {
     public ScenarioNodeSO startNode;
+    public string title;
+
+    public ScenarioContext ToContext()
+    {
+        var context = new ScenarioContext();
+        context.id = id;
+        context.title = title;
+
+        return context;
+    }
 }

@@ -22,18 +22,18 @@ public class Obtainer: MonoBehaviour, IObtainer
     {
         observers.Remove(observer);
     }
-    void IObtainer.Obtain(ItemData item, int cnt)
+    void IObtainer.Obtain(ItemIds id, int cnt)
 	{
         if (inventory == null) return;
-        inventory.AddItem(item.id, item, cnt);
+        inventory.AddItem(id, cnt);
 
-		NotifyObservers(item, cnt);
+		NotifyObservers(id, cnt);
 	}
-	private void NotifyObservers(ItemData item, int cnt = 1)
+	private void NotifyObservers(ItemIds id, int cnt = 1)
 	{
 		for (int i = 0; i < observers.Count; i++)
 		{
-			observers[i].Update(item, cnt);
+			observers[i].Update(id, cnt);
 		}
 	}
 }

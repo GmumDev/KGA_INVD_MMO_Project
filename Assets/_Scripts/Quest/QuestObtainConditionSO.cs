@@ -8,8 +8,15 @@ public class QuestObtainConditionSO: QuestConditionSO
     public int itemCount;
     public bool removeItemsOnComplete;
 
-    public override QuestCondition GetConditionInstance()
+    public override QuestConditionContext ToContext()
     {
-		return new QuestObtainCondition(this);
-	}
+        var context = new QuestConditionContext();
+        context.id = id;
+        context.type = type;
+        context.itemID = itemID;
+        context.itemCount = itemCount;
+        context.removeItemsOnComplete = removeItemsOnComplete;
+
+        return context;
+    }
 }

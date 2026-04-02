@@ -2,15 +2,15 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.Collections.Unicode;
 
 [RequireComponent(typeof(Obtainer))]
 public class QuestRunner: MonoBehaviour, IObtainObserver, IQuestRunner
 {
-    List<Quest> questCompleted = new List<Quest>();
-	List<Quest> questNotCompleted = new List<Quest>();
+	Dictionary<QuestIds, QuestContext> quests;
+	Dictionary<QuestIds, bool> isQuestCompleted;
 
     IObtainer obtainer;
-
 	IInventory inventory;
 
 	void Start()
@@ -20,37 +20,45 @@ public class QuestRunner: MonoBehaviour, IObtainObserver, IQuestRunner
 
 		obtainer?.Subscribe(this);
 	}
-	void IObtainObserver.Update(ItemData item, int cnt) => UpdateWhetherQuestComplete();
+	void IObtainObserver.Update(ItemIds id, int cnt) => UpdateWhetherQuestComplete();
 	bool IQuestRunner.HasItem(ItemIds id) => inventory.HasItem(id);
 	int IQuestRunner.GetItemCount(ItemIds id) => inventory.GetItemCount(id);
-	void IQuestRunner.AddItem(ItemIds id, ItemData item, int cnt) => inventory.AddItem(id, item, cnt);
-	void IQuestRunner.CompleteQuest(Quest quest)
+	void IQuestRunner.AddItem(ItemIds id, int cnt) => inventory.AddItem(id, cnt);
+	void IQuestRunner.CompleteQuest(QuestIds questID)
 	{
-		var complete = questCompleted.Remove(quest);
-		if (complete == false)
+		var context = SOLoader<QuestIds, QuestSO>.Instance.GetSO(questID).ToContext();
+		
+		foreach (var ctx in context.rewardContexts)
 		{
-			return;
+            QuestRewardService.Give(this, ctx);
 		}
-
-		quest.GetRewards(this);
 	}
-	void IQuestRunner.AddQuest(Quest quest)
+	void IQuestRunner.AddQuest(QuestIds questID)
 	{
-		questNotCompleted.Add(quest);
+		var context = SOLoader<QuestIds, QuestSO>.Instance.GetSO(questID).ToContext();
+
+		quests.Add(questID, context);
+
 		UpdateWhetherQuestComplete();
 	}
 
 	private void UpdateWhetherQuestComplete()
-	{
-		foreach(var quest in questNotCompleted)
+    {
+		foreach(var questContext in quests.Values)
 		{
-			if(quest.IsComplete(this))
+			bool flag = true;
+
+            foreach (var ctx in questContext.conditionContexts)
 			{
-				questNotCompleted.Remove(quest);
-				questCompleted.Add(quest);
+				if (QuestConditionService.IsMet(this, ctx))
+				{
+					flag = false;
+					break;
+				}
 			}
-		}
-	}
+			isQuestCompleted[questContext.id] = flag;
+        }
+    }
 	~QuestRunner()
 	{
 		obtainer?.Unsubscribe(this);

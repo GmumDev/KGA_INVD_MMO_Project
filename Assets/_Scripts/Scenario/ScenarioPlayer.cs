@@ -1,36 +1,75 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer
+public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer, IScenarioContextRunner
 {
-
-
-	Scenario currentScenario;
-
 	[SerializeField]
 	GameObject ScenarioPanel;
 
 	[SerializeField]
 	TextMeshProUGUI dialogueUGUI;
 
-	Scenario scenarioForTest;
+    ScenarioContext curScenario;
+    ScenarioNodeSO curNodeSO;
+    ScenarioNodeContext curNodeContext;
 
-	private async void Start()
+
+    private async void Start()
 	{
 
 		SOLoader<ScenarioIds, ScenarioSO> ScenarioLoader = SOLoader<ScenarioIds, ScenarioSO>.Instance;
 
 		await ScenarioLoader.LoadData(ScenarioIds.FirstTutorial);
 
-		scenarioForTest = new Scenario(ScenarioLoader.GetSO(ScenarioIds.FirstTutorial));
 
 	}
 
-	public void Play()
+    bool isPlaying;
+    bool IScenarioPlayer.IsPlaying => isPlaying;
+
+
+
+    void IScenarioPlayer.PlayScenario(ScenarioIds scenarioId)
+    {
+        if (isPlaying) return;
+
+        ScenarioSO scenario = SOLoader<ScenarioIds, ScenarioSO>.Instance.GetSO(scenarioId);
+
+        isPlaying = true;
+        curNodeSO = scenario.startNode;
+        curScenario = scenario.ToContext();
+        curNodeContext = curNodeSO.ToContext();
+
+        ScenarioService.PlayAsFirstNode(this, curNodeContext);
+    }
+    void IScenarioPlayer.NextNode()
+    {
+        if (isPlaying == false)     // fool proof
+        {
+            return;
+        }
+
+        ScenarioService.FinishNode(this, curNodeContext);
+
+        if (curNodeSO.nextNode == null)  // is end, but trying to next
+        {
+            isPlaying = false;
+            return;
+        }
+
+        curNodeSO = curNodeSO.nextNode;
+
+        curNodeContext = curNodeSO.ToContext();
+        ScenarioService.PlayAsNextNode(this, curNodeContext);
+
+    }
+
+    public void Play()
 	{
-		(this as IScenarioPlayer).PlayScenario(scenarioForTest);
+		(this as IScenarioPlayer).PlayScenario(ScenarioIds.FirstTutorial);
 	}
 
 	public void NextScenarioNode()
@@ -40,41 +79,15 @@ public class ScenarioPlayer : MonoBehaviour, IScenarioPlayer
 		(this as IScenarioPlayer).NextNode();
 	}
 
+    void IScenarioContextRunner.DoDialogue(ScenarioNodeContext ctx)
+    {
+        dialogueUGUI.text = ctx.dialogueStr;
+        ScenarioPanel.SetActive(true);
+    }
 
-	bool isPlaying;
-	bool IScenarioPlayer.IsPlaying => isPlaying;
-
-	void IScenarioPlayer.PlayScenario(Scenario scenario)
-	{
-		if (isPlaying) return;
-
-		isPlaying = true;
-		this.currentScenario = scenario;
-		currentScenario.PlayCurrentNode(this as IScenarioPlayer);
-	}
-	void IScenarioPlayer.NextNode()
-	{
-		if (currentScenario == null) return;
-
-		isPlaying = currentScenario.PlayNextNode(this);
-		if(isPlaying == false)
-		{
-			OnScenarioFinished();
-		}
-	}
-	void IScenarioPlayer.DoDialogue(ScenarioDialogueNodeSO so)
-	{
-		dialogueUGUI.text = so.dialogueStr;
-		ScenarioPanel.SetActive(true);
-	}
-	void IScenarioPlayer.ClearDialogue()
-	{
-		dialogueUGUI.text = "";
-		ScenarioPanel.SetActive(false);
-	}
-	void OnScenarioFinished()
-	{
-		isPlaying = false;
-		currentScenario.ResetScenario();
-	}
+    void IScenarioContextRunner.ClearDialogue() 
+    {
+        dialogueUGUI.text = "";
+        ScenarioPanel.SetActive(false);
+    }
 }

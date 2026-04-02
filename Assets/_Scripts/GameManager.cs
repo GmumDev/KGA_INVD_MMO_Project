@@ -35,9 +35,9 @@ public class GameManager: MonoBehaviour
 		SOLoader<QuestIds, QuestSO> QuestLoader = SOLoader<QuestIds, QuestSO>.Instance;
 
 		await QuestLoader.LoadData(QuestIds.FirstQuest);
-		
-		Quest q = new Quest(QuestLoader.GetSO(QuestIds.FirstQuest));
 
-		Debug.Log(q);
+		//IQuestRunner q;
+		//q.AddQuest(QuestIds.FirstQuest);
+
 	}
 }

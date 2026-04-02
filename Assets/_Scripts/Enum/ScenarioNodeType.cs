@@ -6,5 +6,4 @@ public enum ScenarioNodeType
     Choice,
     Jump,
     Event,
-    End,
 }
