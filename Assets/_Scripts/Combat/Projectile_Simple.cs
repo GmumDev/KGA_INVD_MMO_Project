@@ -4,6 +4,6 @@ public class Projectile_Simple : Projectile
 {
 	protected override void OnApplyDamage()
 	{
-		DestroySelf();
+		Destroy(gameObject);
 	}
 }

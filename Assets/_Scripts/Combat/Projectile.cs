@@ -17,10 +17,6 @@ public abstract class Projectile : MonoBehaviour
     public float speed;
     public bool isRunning;
 
-    private IObjectPool<Projectile> projectilePool;
-	public void SetManagedPool(IObjectPool<Projectile> pool) => projectilePool = pool;
-	public virtual void DestroySelf() => projectilePool.Release(this);
-
 
 	private void Update()
 	{
