@@ -11,7 +11,6 @@ public class QuestKillConditionSO: QuestConditionSO
 	public override QuestConditionContext ToContext()
 	{
 		var context = new QuestConditionContext();
-		context.id = id;
 		context.type = type;
 
 		context.enemyId = enemyId;

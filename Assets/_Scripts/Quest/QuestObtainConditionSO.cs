@@ -11,7 +11,6 @@ public class QuestObtainConditionSO: QuestConditionSO
     public override QuestConditionContext ToContext()
     {
         var context = new QuestConditionContext();
-        context.id = id;
         context.type = type;
 
         context.itemID = itemID;

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class QuestConditionContext
 {
-    public QuestConditionIds id;
     public QuestConditionType type;
 
     // obtain

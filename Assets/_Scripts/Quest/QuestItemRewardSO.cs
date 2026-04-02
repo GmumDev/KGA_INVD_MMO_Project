@@ -10,7 +10,6 @@ public class QuestItemRewardSO: QuestRewardSO
     public override QuestRewardContext ToContext()
     {
         var context = new QuestRewardContext();
-        context.id = id;
         context.type = type;
         context.itemId = itemId;
         context.itemCount = itemCount;
