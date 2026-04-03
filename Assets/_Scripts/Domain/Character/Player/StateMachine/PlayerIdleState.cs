@@ -8,12 +8,6 @@ public class PlayerIdleState : PlayerBaseState
 	// °íºñ¿ë
 
 	ProjectileShooter shooter;
-
-	InputAction fireAction;
-	InputAction lookAction;
-	InputAction moveAction;
-	InputAction interactAction;
-
 	float mouseSenceX = 100f;
 	float speed = 10f;
 
@@ -26,11 +20,6 @@ public class PlayerIdleState : PlayerBaseState
 	public PlayerIdleState(Player player) : base(player) 
 	{
 		shooter = player.GetComponentInChildren<ProjectileShooter>();
-
-		fireAction = InputSystem.actions.FindAction("Fire");
-		moveAction = InputSystem.actions.FindAction("Move");
-		lookAction = InputSystem.actions.FindAction("Look");
-		interactAction = InputSystem.actions.FindAction("Interact");
 	}
 
 	#region StateMachine
@@ -41,7 +30,7 @@ public class PlayerIdleState : PlayerBaseState
 	}
 	public override void Update()
 	{
-		if (fireAction.ReadValue<float>() > 0)
+		if (player.fireAction.ReadValue<float>() > 0)
 			shooter.Shoot();
 
 		Move();
@@ -52,6 +41,7 @@ public class PlayerIdleState : PlayerBaseState
 	{
 		interactHovering = false;
 		OnInteractPanelRequested?.Invoke(false);
+		Debug.Log("False");
 	}
 
 	public override void FixedUpdate()
@@ -62,7 +52,7 @@ public class PlayerIdleState : PlayerBaseState
 
 	private void Move()
 	{
-		Vector2 v = moveAction.ReadValue<Vector2>();
+		Vector2 v = player.moveAction.ReadValue<Vector2>();
 
 		Vector3 dir = player.transform.forward * v.y + player.transform.right * v.x;
 		dir.y = 0;
@@ -70,13 +60,13 @@ public class PlayerIdleState : PlayerBaseState
 	}
 	private void Look()
 	{
-		var v = lookAction.ReadValue<Vector2>();
+		var v = player.lookAction.ReadValue<Vector2>();
 		player.transform.Rotate(new Vector3(0, v.x, 0) * mouseSenceX * Time.deltaTime);
 	}
 	private void Interact()
 	{
 		Debug.DrawRay(player.transform.position, player.transform.forward * 2f, Color.red);
-		if (interactHovering && interactAction.IsPressed() && IsNPCInteractReady())
+		if (interactHovering && player.interactAction.WasPressedThisFrame() && IsNPCInteractReady())
 		{
 			target?.OnInteract();
 			player.ChangeState(player.WatchState);
@@ -87,7 +77,6 @@ public class PlayerIdleState : PlayerBaseState
 			if (interactHovering == false)
 			{
 				OnInteractPanelRequested?.Invoke(true);
-				Debug.Log("TRUE");
 			}
 			interactHovering = true;
 		}
@@ -96,8 +85,6 @@ public class PlayerIdleState : PlayerBaseState
 			if (interactHovering == true)
 			{
 				OnInteractPanelRequested?.Invoke(false);
-
-				Debug.Log("False");
 			}
 			interactHovering = false;
 		}

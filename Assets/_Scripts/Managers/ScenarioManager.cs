@@ -50,7 +50,10 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
             Destroy(this.gameObject);
         }
 	}
-
+	private void OnEnable()
+	{
+        PlayerWatchState.OnNextNodeRequested += NextNode;
+	}
 	public void PlayScenario(ScenarioIds scenarioId)
     {
         if (isPlaying) return;

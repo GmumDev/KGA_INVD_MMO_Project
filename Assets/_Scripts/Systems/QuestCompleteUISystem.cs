@@ -49,7 +49,7 @@ public class QuestCompleteUISystem : MonoBehaviour
 	private void OnEnable()
 	{
 		tokens.Add(EventBus.Subscribe<QuestCompletedEvent>(OnQuestCompleted));
-		PlayerIdleState.OnInteractPanelRequested += interactHoverPanel.SetActive;
+		PlayerIdleState.OnInteractPanelRequested += interactHoverPanel.SetActive;	// Todo
 	}
 	void OnQuestCompleted(QuestCompletedEvent ev)
     {

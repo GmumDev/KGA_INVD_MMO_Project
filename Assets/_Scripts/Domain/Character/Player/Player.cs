@@ -15,12 +15,22 @@ public class Player : MonoBehaviour
 	public PlayerWatchState WatchState { get; private set; }
 
 
+
+	public InputAction fireAction { get; private set; }
+	public InputAction lookAction { get; private set; }
+	public InputAction moveAction { get; private set; }
+	public InputAction interactAction { get; private set; }
+
 	private void Awake()
 	{
 		stateMachine = new PlayerStateMachine();
 		IdleState = new PlayerIdleState(this);
 		WatchState = new PlayerWatchState(this);
 
+		fireAction = InputSystem.actions.FindAction("Fire");
+		moveAction = InputSystem.actions.FindAction("Move");
+		lookAction = InputSystem.actions.FindAction("Look");
+		interactAction = InputSystem.actions.FindAction("Interact");
 
 		inventory = GetComponent<InventorySystem>();
 
