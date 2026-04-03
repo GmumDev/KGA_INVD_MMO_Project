@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScenarioDialogueNodeSO
   type: 0
   nextNode: {fileID: 0}
+  speakerStr: "\uAC1C\uBC1C\uC790\uD638\uC18C\uC778"
   dialogueStr: "\uADF8\uC8E0"

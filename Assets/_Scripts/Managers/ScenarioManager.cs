@@ -7,13 +7,16 @@ using UnityEngine;
 public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContextRunner
 {
     private static ScenarioManager instance;
-    public static IScenarioManager Instance { get => instance; }
+    public static ScenarioManager Instance { get => instance; }
+    public event Action OnScenarioEnded;
 
 	[SerializeField]
 	GameObject ScenarioPanel;
 
 	[SerializeField]
-	TextMeshProUGUI dialogueUGUI;
+	TextMeshProUGUI dialogueSpeakerUGUI;
+	[SerializeField]
+	TextMeshProUGUI dialogueTextUGUI;
 
     ScenarioContext curScenario;
     ScenarioNodeSO curNodeSO;
@@ -73,8 +76,9 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
         if (curNodeSO.nextNode == null)  // is end, but trying to next
         {
             isPlaying = false;
-            // publish scenario finished event
-            return;
+            OnScenarioEnded?.Invoke();
+
+			return;
         }
 
         curNodeSO = curNodeSO.nextNode;
@@ -85,14 +89,16 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
 
 
     void IScenarioContextRunner.DoDialogue(ScenarioNodeContext ctx)
-    {
-        dialogueUGUI.text = ctx.dialogueStr;
-        ScenarioPanel.SetActive(true);
+	{
+		dialogueSpeakerUGUI.text = ctx.speakerStr;
+		dialogueTextUGUI.text = ctx.dialogueStr;
+		ScenarioPanel.SetActive(true);
     }
 
-    void IScenarioContextRunner.ClearDialogue() 
-    {
-        dialogueUGUI.text = "";
+    void IScenarioContextRunner.ClearDialogue()
+	{
+		dialogueSpeakerUGUI.text = "";
+		dialogueTextUGUI.text = "";
         ScenarioPanel.SetActive(false);
     }
 }

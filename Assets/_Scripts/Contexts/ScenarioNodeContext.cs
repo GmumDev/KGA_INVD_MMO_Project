@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public struct ScenarioNodeContext
+public class ScenarioNodeContext
 {
     public ScenarioNodeType type;
 
     // dialogue
     public ScenarioNodeType nextNodeType;
-    public string dialogueStr;
+    public string speakerStr;
+	public string dialogueStr;
 
 }

@@ -15,7 +15,7 @@ public static class EventBus
         Type type = typeof(T);
 
         Action<object> wrapper = (e) => listener((T)e);
-
+        
         if (!events.ContainsKey(type))
             events[type] = null;
 
@@ -27,6 +27,7 @@ public static class EventBus
             action = wrapper
         };
     }
+	static void Wrap<T>(object e, Action<T> listener) => listener((T)e);
     public static void Unsubscribe(SubscriptionToken token)
     {
         if (events.ContainsKey(token.eventType))
