@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContextRunner
 {
+    private static ScenarioManager instance;
+    public static IScenarioManager Instance { get => instance; }
+
 	[SerializeField]
 	GameObject ScenarioPanel;
 
@@ -30,9 +33,22 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
     {
         NextNode();
     }
-    #endregion 
+	#endregion
 
-    public void PlayScenario(ScenarioIds scenarioId)
+	private void Awake()
+	{
+		if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+	}
+
+	public void PlayScenario(ScenarioIds scenarioId)
     {
         if (isPlaying) return;
 

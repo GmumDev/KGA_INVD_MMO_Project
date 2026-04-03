@@ -12,7 +12,7 @@ public class QuestItemRewardSO: QuestRewardSO
         var context = new QuestRewardContext();
         context.type = type;
         context.itemId = itemId;
-        context.itemCount = itemCount;
+        context.amount = itemCount;
 
         return context;
     }

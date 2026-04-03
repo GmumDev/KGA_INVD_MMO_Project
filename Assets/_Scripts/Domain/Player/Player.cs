@@ -5,30 +5,30 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+	private enum State
+	{
+		Idle
+	}
     IInventory inventory;
+	State curState;
 
-    ProjectileShooter shooter;
-
-	InputAction fireAction;
-	InputAction lookAction;
-
-	public float mouseSenceX;
+	FSM<Player> fsm;
 
 	void Start()
     {
         inventory = GetComponent<InventorySystem>();
-		shooter = GetComponentInChildren<ProjectileShooter>();
+		fsm = new FSM<Player>(new PlayerIdleState(this));
 
-		fireAction = InputSystem.actions.FindAction("Fire");
-		lookAction = InputSystem.actions.FindAction("Look");
 	}
 	private void Update()
 	{
-		if (fireAction.ReadValue<float>() > 0)
-			shooter.Shoot();
+		switch(curState)
+		{
+			case State.Idle:
 
-		var v = lookAction.ReadValue<Vector2>();
-		transform.Rotate(new Vector3(0, v.x, 0) * mouseSenceX * Time.deltaTime);
+				break;
+		}
 
+		fsm.UpdateState();
 	}
 }

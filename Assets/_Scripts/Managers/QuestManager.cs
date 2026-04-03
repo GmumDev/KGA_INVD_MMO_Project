@@ -21,8 +21,11 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
             this.conditionTypes = conditionTypes;
             this.isCompleted = isCompleted;
         }
-    }
-    Dictionary<QuestIds, QuestState> questStates = new Dictionary<QuestIds, QuestState>();
+	}
+	private static QuestManager instance;
+	public static IQuestManager Instance { get => instance; }
+
+	Dictionary<QuestIds, QuestState> questStates = new Dictionary<QuestIds, QuestState>();
 
 	IInventory inventory;
 
@@ -30,16 +33,33 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 
 	QuestRewardService rewardService = new QuestRewardService();
 
-    #region Scenario Test On UI Button
+    #region Quest Test On UI Button
     public void Test_AcceptQuest()
     {
         (this as IQuestManager).AcceptQuest(QuestIds.FirstQuest);
     }
-    #endregion 
-    void Start()
+	#endregion
+
+	private void Awake()
+	{
+		if(instance == null)
+		{
+			instance = this;
+			DontDestroyOnLoad(this.gameObject);
+		}
+		else
+		{
+			Destroy(this.gameObject);
+		}
+	}
+
+	void Start()
 	{
         inventory = GetComponent<InventorySystem>();
 
+	}
+	private void OnEnable()
+	{
 		subscriptionTokens.Add(EventBus.Subscribe<InventoryChangedEvent>(OnInventoryChanged));
 		subscriptionTokens.Add(EventBus.Subscribe<EnemyKilledEvent>(OnEnemyKilled));
 	}
@@ -54,6 +74,10 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 		}
 
         questStates.Remove(questID);
+
+		EventBus.Publish(new QuestCompletedEvent(
+			questStates[questID].data.title, 
+			questStates[questID].data.rewardContexts));
 	}
 	void IQuestManager.AbandonQuest(QuestIds questID)
 	{
@@ -143,7 +167,7 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 	void IQuestRewardEarner.EarnExpReward(int cnt) => throw new System.NotImplementedException();
 	
 
-	void OnDestroy()
+	void OnDisable()
     {
 		foreach(var token in subscriptionTokens)
 			EventBus.Unsubscribe(token);
