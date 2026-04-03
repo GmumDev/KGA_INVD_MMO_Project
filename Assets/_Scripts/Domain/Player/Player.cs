@@ -1,34 +1,48 @@
+using System;
+using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.UI.GridLayoutGroup;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IInteractor
 {
-	private enum State
+
+	IInventory inventory;
+	private PlayerStateMachine stateMachine;
+	public PlayerIdleState IdleState { get; private set; }
+	public PlayerWatchState WatchState { get; private set; }
+
+	private void Awake()
 	{
-		Idle
+		stateMachine = new PlayerStateMachine();
+		IdleState = new PlayerIdleState(this);
+		WatchState = new PlayerWatchState(this);
+		inventory = GetComponent<InventorySystem>();
+
+		//EventBus.Subscribe<ScenarioFinishedEvent>(OnWatchingFinished)
 	}
-    IInventory inventory;
-	State curState;
-
-	FSM<Player> fsm;
-
-	void Start()
-    {
-        inventory = GetComponent<InventorySystem>();
-		fsm = new FSM<Player>(new PlayerIdleState(this));
-
-	}
-	private void Update()
+	private void Start() => stateMachine.Initialize(IdleState);
+	private void Update() => stateMachine.Update();
+	private void FixedUpdate() => stateMachine.FixedUpdate();
+	public void ChangeState(PlayerBaseState newState) => stateMachine.ChangeState(newState);
+	void IInteractor.TryInteract(IInteractable target)
 	{
-		switch(curState)
+		if (stateMachine.curState is IInteractableState state)
 		{
-			case State.Idle:
+			if (state.isNowInteract())
+			{
+				InteractionType type = target.OnInteract();
 
-				break;
+				ChangeState(WatchState);
+			}
 		}
+	}
 
-		fsm.UpdateState();
+	public void OnWatchingFinished()
+	{
+
 	}
 }

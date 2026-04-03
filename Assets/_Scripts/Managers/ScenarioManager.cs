@@ -73,6 +73,7 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
         if (curNodeSO.nextNode == null)  // is end, but trying to next
         {
             isPlaying = false;
+            // publish scenario finished event
             return;
         }
 
