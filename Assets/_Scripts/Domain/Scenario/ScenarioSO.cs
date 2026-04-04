@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ScenarioSO")]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Scenario/ScenarioSO")]
 
 public class ScenarioSO: SORuntimeLoadable<ScenarioIds>
 {

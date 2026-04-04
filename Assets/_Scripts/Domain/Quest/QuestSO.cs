@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/QuestSO")]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Quest/QuestSO")]
 
 public class QuestSO: SORuntimeLoadable<QuestIds>
 {

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/QuestObtainConditionSO")]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Quest/ObtainConditionSO")]
 public class QuestObtainConditionSO: QuestConditionSO
 {
     public ItemIds itemID;

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ScenarioDialogueNodeSO")]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Scenario/DialogueNodeSO")]
 public class ScenarioDialogueNodeSO: ScenarioNodeSO
 {
     public string speakerStr;
@@ -11,7 +11,8 @@ public class ScenarioDialogueNodeSO: ScenarioNodeSO
     {
         var context = new ScenarioNodeContext();
         context.speakerStr = speakerStr;
-        context.type = type;
+        context.type = ScenarioNodeType.Dialogue;
+        context.scenarioNodePlayedEventSO = scenarioNodePlayedEventSO;
         context.dialogueStr = dialogueStr;
 
         return context;

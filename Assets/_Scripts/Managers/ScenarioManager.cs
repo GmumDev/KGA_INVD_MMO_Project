@@ -8,7 +8,6 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
 {
     private static ScenarioManager instance;
     public static ScenarioManager Instance { get => instance; }
-    public event Action OnScenarioEnded;
 
 	[SerializeField]
 	GameObject ScenarioPanel;
@@ -72,7 +71,7 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
         if (curNodeSO.nextNode == null)  // is end, but trying to next
         {
             isPlaying = false;
-            OnScenarioEnded?.Invoke();
+            EventBus.Publish(new ScenarioFinishedEvent(curScenario.id));
             if(curScenario.unloadDataOnScenarioFinished)
                 SOLoader<ScenarioIds, ScenarioSO>.Instance.UnloadData(curScenario.id);
 			return;

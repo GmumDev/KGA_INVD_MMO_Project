@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/QuestKillConditionSO")]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Quest/KillConditionSO")]
 
 public class QuestKillConditionSO: QuestConditionSO
 {

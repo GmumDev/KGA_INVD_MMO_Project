@@ -8,5 +8,9 @@ public class ScenarioNodeContext
     public ScenarioNodeType nextNodeType;
     public string speakerStr;
 	public string dialogueStr;
+    // dialogue with event
+    public ScenarioNodePlayedEventSO scenarioNodePlayedEventSO;
+
+
 
 }

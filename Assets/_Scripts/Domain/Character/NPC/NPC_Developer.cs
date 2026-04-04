@@ -5,17 +5,18 @@ using UnityEngine;
 public class NPC_Developer : NPC
 {
     bool isTalking;
+    SubscriptionToken token;
 
     private void OnEnable()
     {
     }
     private void OnDisable()
     {
-        ScenarioManager.Instance.OnScenarioEnded -= scenarioEndHandler;
+        EventBus.Unsubscribe(token);
     }
-    void scenarioEndHandler()
+    void scenarioEndHandler(ScenarioFinishedEvent ev)
     {
-        ScenarioManager.Instance.OnScenarioEnded -= scenarioEndHandler;
+        EventBus.Unsubscribe(token);
 
         CameraManager.Instance.ResetCameraTarget();
     }
@@ -26,10 +27,8 @@ public class NPC_Developer : NPC
 
         if (isTalking == false) return;
 
+        token = EventBus.Subscribe<ScenarioFinishedEvent>(scenarioEndHandler);
 
-        ScenarioManager.Instance.OnScenarioEnded += scenarioEndHandler;
-
-        
         CameraManager.Instance.FocusTalker(transform);
 
         // camManager.SoftMoveToTarget(this.transform)

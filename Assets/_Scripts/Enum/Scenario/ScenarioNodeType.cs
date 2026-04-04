@@ -3,7 +3,7 @@ using UnityEngine;
 public enum ScenarioNodeType
 {
     Dialogue,
+    DialogueWithEvent,
     Choice,
     Jump,
-    Event,
 }

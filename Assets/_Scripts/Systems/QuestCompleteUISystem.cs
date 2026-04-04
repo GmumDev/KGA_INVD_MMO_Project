@@ -84,8 +84,7 @@ public class QuestCompleteUISystem : MonoBehaviour
             EventBus.Unsubscribe(token);
 	}
 
-    // Creates a new pooled GameObject the first time (and whenever the pool needs more).
-
+    
 
 
     #region ObjectPool
