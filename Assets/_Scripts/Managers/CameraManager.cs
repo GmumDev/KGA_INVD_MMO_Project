@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraManager: MonoBehaviour
 {
@@ -12,12 +13,15 @@ public class CameraManager: MonoBehaviour
 
     [SerializeField]
     CinemachineCamera playerFollowCamera;
+    CinemachineFollow _follow;
+    public float zoomSpd;
+    public float zoomLerpSpd;
+    float targetZoom = 5.5f;
 
     [SerializeField]
     CinemachineCamera focusCamera;
 
-    readonly Vector3 followOffset_ofFocusedTalker = new Vector3(0, 0.7f, 2f);
-    readonly Vector3 targetOffset_ofFocusedTalker = new Vector3(0, 1f, 0);
+    InputAction scrollAction;
 
     private void Awake()
     {
@@ -34,8 +38,21 @@ public class CameraManager: MonoBehaviour
     private void Start()
     {
         playerFollowCamera.Prioritize();
+        scrollAction = InputSystem.actions.FindAction("Scroll");
+
+        _follow = playerFollowCamera.gameObject.GetComponent<CinemachineFollow>();
     }
-    // .7 -1 1
+    private void Update()
+    {
+        if (playerFollowCamera.IsLive)
+        {
+            Vector2 scroll = scrollAction.ReadValue<Vector2>();
+            targetZoom = Mathf.Clamp(targetZoom - scroll.y * zoomSpd * Time.deltaTime, -1f, 5.5f);
+
+            var newzoom = Mathf.Lerp(_follow.FollowOffset.y, targetZoom, zoomLerpSpd * Time.deltaTime);
+            _follow.FollowOffset.y = newzoom;
+        }
+    }
     public void FocusTalker(Transform target)
     {
         focusCamera.Target.TrackingTarget = target;

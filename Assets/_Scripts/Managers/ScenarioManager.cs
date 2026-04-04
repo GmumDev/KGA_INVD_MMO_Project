@@ -27,16 +27,6 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
     bool isPlaying;
     bool IScenarioManager.IsPlaying => isPlaying;
 
-    #region Scenario Test On UI Button
-    public void Test_Play()
-	{
-		PlayScenario(ScenarioIds.FirstTutorial);
-    }
-    public void Test_NextNode()
-    {
-        NextNode();
-    }
-	#endregion
 
 	private void Awake()
 	{
