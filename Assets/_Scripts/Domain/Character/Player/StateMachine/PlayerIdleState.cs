@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerIdleState : PlayerBaseState
 {
-	public static event Action<bool> OnInteractPanelRequested;
-	// °íºñ¿ë
 
 	ProjectileShooter shooter;
 	float mouseSenceX = 100f;
@@ -26,7 +24,6 @@ public class PlayerIdleState : PlayerBaseState
 	public override void Enter()
 	{
 		interactHovering = false;
-		OnInteractPanelRequested?.Invoke(false);
 	}
 	public override void Update()
 	{
@@ -39,7 +36,7 @@ public class PlayerIdleState : PlayerBaseState
 	}
 	public override void Exit()
 	{
-		OnInteractPanelRequested?.Invoke(false);
+		EventBus.Publish(new PlayerInteractUnTargetedEvent(target));
 	}
 
 	public override void FixedUpdate()
@@ -74,17 +71,17 @@ public class PlayerIdleState : PlayerBaseState
 			if (IsNPCInteractReady())
 			{
 				if (interactHovering == false)
-				{
-					OnInteractPanelRequested?.Invoke(true);
-				}
+                {
+                    EventBus.Publish(new PlayerInteractTargetedEvent(target));
+                }
 				interactHovering = true;
 			}
 			else
 			{
 				if (interactHovering == true)
-				{
-					OnInteractPanelRequested?.Invoke(false);
-				}
+                {
+                    EventBus.Publish(new PlayerInteractUnTargetedEvent(target));
+                }
 				interactHovering = false;
 			}
 		}
@@ -95,7 +92,7 @@ public class PlayerIdleState : PlayerBaseState
 		bool flag = Physics.Raycast(player.transform.position, player.transform.forward, out RaycastHit hitInfo, 2f, npcLayerMask);
 
 		target = hitInfo.collider?.gameObject.GetComponent<IInteractable>();
-
+		
 		return flag && target != null;
 	}
 }

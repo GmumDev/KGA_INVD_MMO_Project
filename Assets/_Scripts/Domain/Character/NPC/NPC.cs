@@ -6,4 +6,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     protected NPCSO npcSo;
 
     public abstract void OnInteract();
+
+    public InteractableIds GetInteractableID() => InteractableIds.NPC;
+
 }

@@ -12,7 +12,8 @@ public class NPC_Developer : NPC
     }
     private void OnDisable()
     {
-        EventBus.Unsubscribe(token);
+        if(token != null)
+            EventBus.Unsubscribe(token);
     }
     void scenarioEndHandler(ScenarioFinishedEvent ev)
     {
