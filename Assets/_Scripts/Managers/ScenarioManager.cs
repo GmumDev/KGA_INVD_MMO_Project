@@ -54,9 +54,9 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
 	{
         PlayerWatchState.OnNextNodeRequested += NextNode;
 	}
-	public void PlayScenario(ScenarioIds scenarioId)
+	public bool PlayScenario(ScenarioIds scenarioId)
     {
-        if (isPlaying) return;
+        if (isPlaying) return false;
 
         ScenarioSO scenario = SOLoader<ScenarioIds, ScenarioSO>.Instance.GetSO(scenarioId);
 
@@ -66,7 +66,10 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
         curNodeContext = curNodeSO.ToContext();
 
         ScenarioService.PlayAsFirstNode(this, curNodeContext);
+
+        return true;
     }
+
     public void NextNode()
     {
         if (isPlaying == false)     // fool proof
@@ -80,7 +83,8 @@ public class ScenarioManager : MonoBehaviour, IScenarioManager, IScenarioContext
         {
             isPlaying = false;
             OnScenarioEnded?.Invoke();
-
+            if(curScenario.unloadDataOnScenarioFinished)
+                SOLoader<ScenarioIds, ScenarioSO>.Instance.UnloadData(curScenario.id);
 			return;
         }
 

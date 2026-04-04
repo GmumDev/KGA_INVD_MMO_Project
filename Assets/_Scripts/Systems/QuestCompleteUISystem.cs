@@ -21,10 +21,6 @@ public class QuestCompleteUISystem : MonoBehaviour
 	[SerializeField]
 	GameObject questRewardCellPrefab;   // object pool, need ImageComponent
 
-	[Header("Player NPC Interaction Panel")]
-	[SerializeField]
-	GameObject interactHoverPanel;
-
 
 
 	IObjectPool<Image> questRewardCellPool;
@@ -44,12 +40,10 @@ public class QuestCompleteUISystem : MonoBehaviour
 			maxSize: 20
 		);
 		questCompletePanel.SetActive(false);
-		interactHoverPanel.SetActive(false);
 	}
 	private void OnEnable()
 	{
 		tokens.Add(EventBus.Subscribe<QuestCompletedEvent>(OnQuestCompleted));
-		PlayerIdleState.OnInteractPanelRequested += interactHoverPanel.SetActive;	// Todo
 	}
 	void OnQuestCompleted(QuestCompletedEvent ev)
     {
@@ -88,11 +82,14 @@ public class QuestCompleteUISystem : MonoBehaviour
 	{
         foreach (var token in tokens)
             EventBus.Unsubscribe(token);
-		PlayerIdleState.OnInteractPanelRequested -= interactHoverPanel.SetActive;
 	}
 
-	// Creates a new pooled GameObject the first time (and whenever the pool needs more).
-	private Image CreateItem()
+    // Creates a new pooled GameObject the first time (and whenever the pool needs more).
+
+
+
+    #region ObjectPool
+    private Image CreateItem()
 	{
 		GameObject gameObject = Instantiate(questRewardCellPrefab);
 		
@@ -117,5 +114,5 @@ public class QuestCompleteUISystem : MonoBehaviour
 	{
 		Destroy(image.gameObject);
 	}
-
+    #endregion
 }

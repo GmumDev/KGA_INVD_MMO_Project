@@ -19,28 +19,51 @@ public class SOLoader<TID, TSO> where TSO : SORuntimeLoadable<TID>
 		}
 	}
 	private Dictionary<TID, TSO> datas = new Dictionary<TID, TSO>();
-	
-	public async Awaitable LoadData(TID id)
-	{
-		string assetKey = Enum.GetName(typeof(TID), id);
-		AsyncOperationHandle handle = Addressables.LoadAssetAsync<TSO>(assetKey);
-		handle.Completed += Handle_Completed;
 
-		await handle.Task;
+    public async Awaitable LoadData(TID id)
+    {
+        string assetKey = Enum.GetName(typeof(TID), id);
+        AsyncOperationHandle<TSO> handle = Addressables.LoadAssetAsync<TSO>(assetKey);
 
-		Addressables.Release(handle);
-	}
-	private void Handle_Completed(AsyncOperationHandle obj)
-	{
-		if (obj.Status == AsyncOperationStatus.Succeeded)
-		{
-			// same key exception can occur
-			TSO so = (TSO)obj.Result;
-			datas.Add(so.id, so);
-		}
-	}
+        TSO so = await handle.Task;
+        try
+        {
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                // 2. 중복 키 체크 (TryAdd 또는 인덱서 사용)
+                if (datas.ContainsKey(so.id))
+                {
+                    Debug.LogWarning($"[LoadData] 이미 존재하는 키입니다: {so.id}");
+                    // 이미 존재한다면 새로 로드한 것은 해제해줘야 할 수도 있음
+                    Addressables.Release(handle);
+                    return;
+                }
 
-	public TSO GetSO(TID id)
+                datas.Add(so.id, so);
+                Debug.Log($"[LoadData] 로드 성공: {assetKey}");
+            }
+            else
+            {
+                Debug.LogError($"[LoadData] 로드 실패: {assetKey}");
+                Addressables.Release(handle);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+            if (handle.IsValid()) Addressables.Release(handle);
+        }
+    }
+    // 나중에 데이터를 지울 때
+    public void UnloadData(TID id)
+    {
+        if (datas.Remove(id, out TSO so))
+        {
+            Addressables.Release(so); // 에셋 참조를 넣어 해제 (카운트 -1)
+        }
+    }
+    public TSO GetSO(TID id)
 	{
 		if (datas.ContainsKey(id)) return datas[id];
 		return default;

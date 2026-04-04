@@ -34,15 +34,14 @@ public class Player : MonoBehaviour
 
 		inventory = GetComponent<InventorySystem>();
 
-		//EventBus.Subscribe<ScenarioFinishedEvent>(OnWatchingFinished)
 	}
 	private void Start() => stateMachine.Initialize(IdleState);
 	private void Update() => stateMachine.Update();
 	private void FixedUpdate() => stateMachine.FixedUpdate();
 	public void ChangeState(PlayerBaseState newState) => stateMachine.ChangeState(newState);
 
-	public void OnWatchingFinished()
-	{
-
-	}
+    private void OnDestroy()
+    {
+		stateMachine.curState.Exit();
+    }
 }

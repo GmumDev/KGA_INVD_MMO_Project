@@ -39,9 +39,7 @@ public class PlayerIdleState : PlayerBaseState
 	}
 	public override void Exit()
 	{
-		interactHovering = false;
 		OnInteractPanelRequested?.Invoke(false);
-		Debug.Log("False");
 	}
 
 	public override void FixedUpdate()
@@ -71,22 +69,24 @@ public class PlayerIdleState : PlayerBaseState
 			target?.OnInteract();
 			player.ChangeState(player.WatchState);
 		}
-
-		if (IsNPCInteractReady())
-		{
-			if (interactHovering == false)
-			{
-				OnInteractPanelRequested?.Invoke(true);
-			}
-			interactHovering = true;
-		}
 		else
 		{
-			if (interactHovering == true)
+			if (IsNPCInteractReady())
 			{
-				OnInteractPanelRequested?.Invoke(false);
+				if (interactHovering == false)
+				{
+					OnInteractPanelRequested?.Invoke(true);
+				}
+				interactHovering = true;
 			}
-			interactHovering = false;
+			else
+			{
+				if (interactHovering == true)
+				{
+					OnInteractPanelRequested?.Invoke(false);
+				}
+				interactHovering = false;
+			}
 		}
 	}
 
