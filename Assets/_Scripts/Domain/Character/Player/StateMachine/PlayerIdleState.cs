@@ -35,9 +35,9 @@ public class PlayerIdleState : PlayerBaseState
 		Interact();
 	}
 	public override void Exit()
-	{
-		EventBus.Publish(new PlayerInteractUnTargetedEvent(target));
-	}
+    {
+        InteractUISystem.Instance.InteractTargetedOff();
+    }
 
 	public override void FixedUpdate()
 	{
@@ -64,7 +64,7 @@ public class PlayerIdleState : PlayerBaseState
 		if (interactHovering && player.interactAction.WasPressedThisFrame() && IsNPCInteractReady())
 		{
 			target?.OnInteract();
-			player.ChangeState(player.WatchState);
+            player.ChangeState(player.WatchState);
 		}
 		else
 		{
@@ -72,7 +72,7 @@ public class PlayerIdleState : PlayerBaseState
 			{
 				if (interactHovering == false)
                 {
-                    EventBus.Publish(new PlayerInteractTargetedEvent(target));
+					InteractUISystem.Instance.InteractTargetedOn(target.GetInteractableID());
                 }
 				interactHovering = true;
 			}
@@ -80,7 +80,7 @@ public class PlayerIdleState : PlayerBaseState
 			{
 				if (interactHovering == true)
                 {
-                    EventBus.Publish(new PlayerInteractUnTargetedEvent(target));
+                    InteractUISystem.Instance.InteractTargetedOff();
                 }
 				interactHovering = false;
 			}

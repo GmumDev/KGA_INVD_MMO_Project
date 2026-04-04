@@ -11,7 +11,7 @@ public static class ScenarioService
 
     public static void FinishNode(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
     {
-        handlers[context.type].FisishNode(ctxRunner, context);
+        handlers[context.type].FinishNode(ctxRunner, context);
     }
     public static void PlayAsFirstNode(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
     {

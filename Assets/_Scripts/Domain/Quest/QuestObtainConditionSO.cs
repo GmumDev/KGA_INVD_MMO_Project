@@ -5,16 +5,17 @@ using UnityEngine;
 public class QuestObtainConditionSO: QuestConditionSO
 {
     public ItemIds itemID;
-    public int itemCount;
+    public int itemCntToObtain;
     public bool removeItemsOnComplete;
 
     public override QuestConditionContext ToContext()
     {
+        type = QuestConditionType.Obtain;
         var context = new QuestConditionContext();
         context.type = type;
 
         context.itemID = itemID;
-        context.itemCount = itemCount;
+        context.itemCntToObtain = itemCntToObtain;
         context.removeItemsOnComplete = removeItemsOnComplete;
 
         return context;

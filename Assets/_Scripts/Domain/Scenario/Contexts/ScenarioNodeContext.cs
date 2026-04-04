@@ -10,6 +10,7 @@ public class ScenarioNodeContext
 	public string dialogueStr;
     // dialogue with event
     public ScenarioNodePlayedEventSO scenarioNodePlayedEventSO;
+    public ScenarioNodeFinishedEventSO scenarioNodeFinishedEventSO;
 
 
 

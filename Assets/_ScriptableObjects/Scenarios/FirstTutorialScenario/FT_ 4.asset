@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 538708d232e62304bbfcee7f5016b9ff, type: 3}
   m_Name: FT_ 4
   m_EditorClassIdentifier: Assembly-CSharp::ScenarioDialogueNodeSO
-  type: 0
   nextNode: {fileID: 0}
+  scenarioNodePlayedEventSO: {fileID: 0}
+  scenarioNodeFinishedEventSO: {fileID: 11400000, guid: 759dceecf6ab4f149afaf876231d0147, type: 2}
   speakerStr: "\uAC1C\uBC1C\uC790\uD638\uC18C\uC778"
   dialogueStr: "\uADF8\uC8E0"

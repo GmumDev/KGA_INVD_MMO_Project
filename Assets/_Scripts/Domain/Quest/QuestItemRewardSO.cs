@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/QuestItemRewardSO")]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Quest/ItemRewardSO")]
 
 public class QuestItemRewardSO: QuestRewardSO
 {

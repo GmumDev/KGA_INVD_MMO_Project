@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class KillConditionChecker : IConditionChecker
 {
-	bool IConditionChecker.Check(IQuestManager manager, QuestConditionContext conditionCtx, QuestConditionProgress progress)
+	bool IConditionChecker.Check(IQuestManager manager, QuestConditionContext conditionCtx, QuestConditionProgress progressCtx)
 	{
-		throw new System.NotImplementedException();
+		return progressCtx.curAmount >= progressCtx.goalAmount;	
 	}
 }

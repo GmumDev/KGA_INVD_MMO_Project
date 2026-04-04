@@ -13,6 +13,7 @@ public class ScenarioDialogueNodeSO: ScenarioNodeSO
         context.speakerStr = speakerStr;
         context.type = ScenarioNodeType.Dialogue;
         context.scenarioNodePlayedEventSO = scenarioNodePlayedEventSO;
+        context.scenarioNodeFinishedEventSO = scenarioNodeFinishedEventSO;
         context.dialogueStr = dialogueStr;
 
         return context;

@@ -3,12 +3,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Scenario/NodePlayedEventSO")]
 public class ScenarioNodePlayedEventSO : ScriptableObject
 {
-    public ScenarioNodePlayedEventIds eventId;
+    public ScenarioNodePlayedEventType eventType;
 
     public ScenarioNodePlayedEvent ToEvent()
     {
         var obj = new ScenarioNodePlayedEvent(
-            eventId
+            eventType
         );
 
         return obj;

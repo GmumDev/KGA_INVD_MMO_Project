@@ -6,7 +6,7 @@ public class QuestConditionContext
 
     // obtain
     public ItemIds itemID;
-    public int itemCount;
+    public int itemCntToObtain;
     public bool removeItemsOnComplete;
 
 	// kill

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using Unity.Android.Gradle.Manifest;
+using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 {
-    class QuestState
+    public class QuestState
     {
         public QuestContext data;
         public List<QuestConditionProgress> progress;
@@ -25,20 +26,12 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 	private static QuestManager instance;
 	public static IQuestManager Instance { get => instance; }
 
-	Dictionary<QuestIds, QuestState> questStates = new Dictionary<QuestIds, QuestState>();
-
+	public Dictionary<QuestIds, QuestState> QuestStates { get; private set; }
 	IInventory inventory;
 
 	List<SubscriptionToken> subscriptionTokens = new List<SubscriptionToken>();
 
 	QuestRewardService rewardService = new QuestRewardService();
-
-    #region Quest Test On UI Button
-    public void Test_AcceptQuest()
-    {
-        (this as IQuestManager).AcceptQuest(QuestIds.FirstQuest);
-    }
-	#endregion
 
 	private void Awake()
 	{
@@ -56,38 +49,39 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 	void Start()
 	{
         inventory = GetComponent<InventorySystem>();
-
-	}
+        QuestStates = new Dictionary<QuestIds, QuestState>();
+    }
 	private void OnEnable()
 	{
 		subscriptionTokens.Add(EventBus.Subscribe<InventoryChangedEvent>(OnInventoryChanged));
 		subscriptionTokens.Add(EventBus.Subscribe<EnemyKilledEvent>(OnEnemyKilled));
+		subscriptionTokens.Add(EventBus.Subscribe<ScenarioNodeFinishedEvent>(OnScenarioNodeFinished));
 	}
 	void IQuestManager.CompleteQuest(QuestIds questID)
 	{
-		if (questStates.ContainsKey(questID) == false) return;
-		if (questStates[questID].isCompleted == false) return;
+		if (QuestStates.ContainsKey(questID) == false) return;
+		if (QuestStates[questID].isCompleted == false) return;
 
-        foreach (var ctx in questStates[questID].data.rewardContexts)
+        foreach (var ctx in QuestStates[questID].data.rewardContexts)
 		{
             rewardService.Give(this, ctx);
 		}
 
-        questStates.Remove(questID);
+        QuestStates.Remove(questID);
 
 		EventBus.Publish(new QuestCompletedEvent(
-			questStates[questID].data.title, 
-			questStates[questID].data.rewardContexts));
+			QuestStates[questID].data.title, 
+			QuestStates[questID].data.rewardContexts));
 	}
 	void IQuestManager.AbandonQuest(QuestIds questID)
 	{
-		if (questStates.ContainsKey(questID) == false) return;
+		if (QuestStates.ContainsKey(questID) == false) return;
 
-        questStates.Remove(questID);
+        QuestStates.Remove(questID);
 	}
 	void IQuestManager.AcceptQuest(QuestIds questID)
 	{
-		if (questStates.ContainsKey(questID)) return;
+		if (QuestStates.ContainsKey(questID)) return;
 
 		var context = SOLoader<QuestIds, QuestSO>.Instance.GetSO(questID).ToContext();
 		List<QuestConditionProgress> _progresses = new List<QuestConditionProgress>();
@@ -98,10 +92,10 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
             switch (ctx.type)
 			{
 				case QuestConditionType.Obtain:
-                    _progresses.Add(QuestConditionProgress.GetObtainConditionProgress(ctx.itemID));
+                    _progresses.Add(QuestConditionProgress.GetObtainConditionProgress(ctx.itemID, ctx.itemCntToObtain));
                     break;
 				case QuestConditionType.Kill:
-                    _progresses.Add(QuestConditionProgress.GetKillConditionProgress(ctx.enemyId));
+                    _progresses.Add(QuestConditionProgress.GetKillConditionProgress(ctx.enemyId, ctx.enemyCntToKill));
                     break;
 			}
 		}
@@ -111,14 +105,15 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 			isCompleted: false,
 			conditionTypes: conditionTypes
 		);
+        QuestStates.Add(questID, _questState);
 
-        questStates.Add(questID, _questState);
+        EventBus.Publish(new QuestAcceptedEvent(questID));
 	}
 
 	//
 	void OnInventoryChanged(InventoryChangedEvent ev)
 	{
-		foreach (var _questState in questStates.Values)
+		foreach (var _questState in QuestStates.Values)
 		{
 			if (_questState.conditionTypes.Contains(QuestConditionType.Obtain) == false) continue;
 
@@ -131,7 +126,7 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 
                 var progress = _questState.progress[i];
 
-				progress.itemCount += ev.deltaCnt;
+				progress.curAmount += ev.deltaCnt;
 
 				allMet = allMet && QuestConditionService.IsMet(this, condition, progress);
             }
@@ -140,7 +135,7 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 	}
 	void OnEnemyKilled(EnemyKilledEvent ev)
 	{
-		foreach(var _questState in questStates.Values)
+		foreach(var _questState in QuestStates.Values)
 		{
 			if (_questState.conditionTypes.Contains(QuestConditionType.Kill) == false) continue;
 
@@ -154,11 +149,18 @@ public class QuestManager : MonoBehaviour, IQuestManager, IQuestRewardEarner
 
 				var progress = _questState.progress[i];
 
-				progress.enemyCnt += ev.enemyKilledCnt;
+				progress.curAmount += ev.enemyKilledCnt;
 
                 allMet = allMet && QuestConditionService.IsMet(this, condition, progress);
             }
             _questState.isCompleted = allMet;
+        }
+	}
+	void OnScenarioNodeFinished(ScenarioNodeFinishedEvent ev)
+	{
+		if(ev.eventType == ScenarioNodeFinishedEventType.FollowUpQuest)
+        {
+            (this as IQuestManager).AcceptQuest(ev.followUpQuestId);
         }
 	}
 

@@ -2,31 +2,38 @@ using UnityEngine;
 
 public class ScenarioDialogueNodeHandler : IScenarioNodeHandler
 {
-    void publishNodeEvent(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
+    void PublishNodePlayedEvent(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
     {
         ScenarioNodePlayedEvent ev = context.scenarioNodePlayedEventSO?.ToEvent();
 
-        if (ev != null && ev.eventId != ScenarioNodePlayedEventIds.None)
+        if (ev != null)
         {
             EventBus.Publish(ev);
         }
-
-        ctxRunner.DoDialogue(context);
     }
-    void IScenarioNodeHandler.FisishNode(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
+    void PublishNodeFinishedEvent(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
+    {
+        ScenarioNodeFinishedEvent ev = context.scenarioNodeFinishedEventSO?.ToEvent();
+        if (ev != null)
+        {
+            EventBus.Publish(ev);
+        }
+    }
+    void IScenarioNodeHandler.FinishNode(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
     {
         ctxRunner.ClearDialogue();
+        PublishNodeFinishedEvent(ctxRunner, context);
     }
 
     void IScenarioNodeHandler.PlayAsFirstNode(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
     {
-        publishNodeEvent(ctxRunner, context);
         ctxRunner.DoDialogue(context);
+        PublishNodePlayedEvent(ctxRunner, context);
     }
 
     void IScenarioNodeHandler.PlayAsNextNode(IScenarioContextRunner ctxRunner, ScenarioNodeContext context)
     {
-        publishNodeEvent(ctxRunner, context);
         ctxRunner.DoDialogue(context);
+        PublishNodePlayedEvent(ctxRunner, context);
     }
 }

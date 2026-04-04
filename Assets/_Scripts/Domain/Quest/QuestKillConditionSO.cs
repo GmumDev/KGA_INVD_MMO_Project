@@ -10,9 +10,9 @@ public class QuestKillConditionSO: QuestConditionSO
 
 	public override QuestConditionContext ToContext()
 	{
+		type = QuestConditionType.Kill;
 		var context = new QuestConditionContext();
 		context.type = type;
-
 		context.enemyId = enemyId;
 		context.enemyCntToKill = enemyCntToKill;
 

@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class ScenarioNodePlayedEvent
 {
-    public ScenarioNodePlayedEventIds eventId;
+    public ScenarioNodePlayedEventType eventtype;
 
-    public ScenarioNodePlayedEvent(ScenarioNodePlayedEventIds eventId)
+    public ScenarioNodePlayedEvent(ScenarioNodePlayedEventType eventtype)
     {
-        this.eventId = eventId;
+        this.eventtype = eventtype;
     }
 }
